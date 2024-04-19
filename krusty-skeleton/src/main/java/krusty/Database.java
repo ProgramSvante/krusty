@@ -3,6 +3,7 @@ package krusty;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
@@ -68,7 +69,7 @@ public class Database {
 	}
 
 	public String getCookies(Request req, Response res) {
-		String Query  = "SELECT name From cookies";
+		String Query  = "SELECT * From cookies";
 		try(PreparedStatement ps = conn.prepareStatement(Query)) {
 			ResultSet rs = ps.executeQuery();
 			String json = Jsonizer.toJson(rs, "cookies");
@@ -96,7 +97,36 @@ public class Database {
 	}
 
 	public String getPallets(Request req, Response res) {
-		return "{\"pallets\":[]}";
+		String sql = "SELECT  From pallets where 1=1"; 
+ 
+		ArrayList<String> values = new ArrayList<String>(); 
+		if (req.queryParams("from") != null) {
+            sql += " AND production_date >= ?";
+            values.add(req.queryParams("from"));
+        }
+        if (req.queryParams("to") != null) {
+            sql += " AND production_date <= ?";
+            values.add(req.queryParams("to"));
+        }
+        if (req.queryParams("cookie") != null) {
+            sql += " AND cookie = ?";
+            values.add(req.queryParams("cookie"));
+        }
+        if (req.queryParams("blocked") != null) {
+            sql += " AND blocked = ?";
+            values.add(req.queryParams("blocked"));
+        }
+		
+		try (PreparedStatement ps = conn.prepareStatement(sql)) { 
+			for (int i = 0; i < values.size(); i++) { 
+				ps.setString(i+1, values.get(i)); 
+			} 
+			ResultSet rs = ps.executeQuery();
+			String json = Jsonizer.toJson(rs, "pallets");
+			return json;
+		} catch (SQLException e) { 
+			throw new RuntimeException(e);
+		} 
 	}
 
 	public String reset(Request req, Response res) {
@@ -106,6 +136,8 @@ public class Database {
 
 
 	public String createPallet(Request req, Response res) {
+		String cookie = req.queryParams("cookie");
+		//if(DataBase.getCookies().)
 		return "{}";
 	}
 }
