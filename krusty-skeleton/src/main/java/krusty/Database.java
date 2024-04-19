@@ -6,8 +6,6 @@ import spark.Response;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.*;
 
 import static krusty.Jsonizer.toJson;
@@ -24,6 +22,7 @@ public class Database {
 	private static final String jdbcPassword = "mtt400wi";
 
 	public void connect() {
+		
 		// Connect to database here		
 		try {
 			conn = DriverManager.getConnection(jdbcString + "/" +
@@ -37,7 +36,18 @@ public class Database {
 	// TODO: Implement and change output in all methods below!
 
 	public String getCustomers(Request req, Response res) {
-		return "{}";
+		String Query  = "SELECT Name, Address From Customer";
+		try(PreparedStatement ps = conn.prepareStatement(Query)) {
+			ResultSet rs = ps.executeQuery();
+			String json = Jsonizer.toJson(rs, "customer");
+			return json;
+		}
+			catch (SQLException e) {
+				throw new RuntimeException(e);
+
+			}
+		
+	
 	}
 
 	public String getRawMaterials(Request req, Response res) {
