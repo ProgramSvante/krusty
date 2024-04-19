@@ -4,7 +4,7 @@ TRUNCATE TABLE cookies;
 TRUNCATE TABLE recipes;
 TRUNCATE TABLE customers;
 TRUNCATE TABLE pallets;
-TRUNCATE TABLE raw-materials;
+TRUNCATE TABLE raw_materials;
 
 INSERT INTO cookies (name) VALUES
 ('Nut ring'),

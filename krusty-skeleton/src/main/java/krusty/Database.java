@@ -6,6 +6,9 @@ import spark.Response;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 
 import static krusty.Jsonizer.toJson;
@@ -97,8 +100,10 @@ public class Database {
 	}
 
 	public String reset(Request req, Response res) {
+
 		return "{}";
 	}
+
 
 	public String createPallet(Request req, Response res) {
 		return "{}";
