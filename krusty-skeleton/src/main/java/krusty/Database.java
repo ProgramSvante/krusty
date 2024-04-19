@@ -20,8 +20,8 @@ public class Database {
 
 	// For use with MySQL or PostgreSQL
 	private Connection conn;
-	private static final String jdbcUsername = "hbg19";
-	private static final String jdbcPassword = "kfy510fe";
+	private static final String jdbcUsername = "hbg10";
+	private static final String jdbcPassword = "mtt400wi";
 
 	public void connect() {
 		// Connect to database here		
