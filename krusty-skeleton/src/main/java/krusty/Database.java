@@ -36,7 +36,11 @@ public class Database {
 	// TODO: Implement and change output in all methods below!
 
 	public String getCustomers(Request req, Response res) {
+<<<<<<< HEAD
+		String Query  = "SELECT name, address From customers";
+=======
 		String Query  = "SELECT * From customers";
+>>>>>>> 52549ea21ac77071d06702033eebe1aa3ffd7a53
 		try(PreparedStatement ps = conn.prepareStatement(Query)) {
 			ResultSet rs = ps.executeQuery();
 			String json = Jsonizer.toJson(rs, "customers");
@@ -51,7 +55,16 @@ public class Database {
 	}
 
 	public String getRawMaterials(Request req, Response res) {
-		return "{}";
+		String Query  ="Select name, amount, unit from raw_materials";
+		try(PreparedStatement ps = conn.prepareStatement(Query)) {
+			ResultSet rs = ps.executeQuery();
+			String json = Jsonizer.toJson(rs, "raw-materials");
+			return json;
+		}
+			catch (SQLException e) {
+				throw new RuntimeException(e);
+
+			}
 	}
 
 	public String getCookies(Request req, Response res) {
