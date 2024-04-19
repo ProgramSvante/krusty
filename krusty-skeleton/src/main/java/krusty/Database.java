@@ -27,7 +27,7 @@ public class Database {
 		// Connect to database here		
 		try {
 			conn = DriverManager.getConnection(jdbcString + "/" +
-					"hbg19", jdbcUsername, jdbcPassword);
+					"hbg10", jdbcUsername, jdbcPassword);
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);

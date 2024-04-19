@@ -77,8 +77,6 @@ CREATE TABLE CookiesPallet (
     FOREIGN KEY (Pallet_ID) REFERENCES Pallet(Pallet_ID)
 );
 
-
-
 CREATE TABLE OrderCookies (
     Order_ID INT,
     BatchID INT,
