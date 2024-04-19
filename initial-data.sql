@@ -71,7 +71,7 @@ INSERT INTO raw_materials (name, amount, unit) VALUES
 INSERT INTO customers (name, address) VALUES
 ('Finkakor AB', 'Helsingborg'),
 ('Småbröd AB', 'Malmö'),
-('Kaffebörd AB', 'Landskrona'),
+('Kaffebröd AB', 'Landskrona'),
 ('Bjudkakor AB', 'Ystad'),
 ('Kalaskakor AB', 'Trelleborg'),
 ('Partykakor AB', 'Kristianstad'),
