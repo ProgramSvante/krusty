@@ -4,16 +4,16 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS OrderCookies;
 DROP TABLE IF EXISTS PalletOrders;
 DROP TABLE IF EXISTS CookiesPallet;
+DROP TABLE IF EXISTS Recipies;
 DROP TABLE IF EXISTS Ingredients;
-DROP TABLE IF EXISTS RawMaterials;
 DROP TABLE IF EXISTS Cookies;
 DROP TABLE IF EXISTS Delivered;
-DROP TABLE IF EXISTS Pallet;
+DROP TABLE IF EXISTS Pallets;
 DROP TABLE IF EXISTS Orders;
-DROP TABLE IF EXISTS Customer;
+DROP TABLE IF EXISTS Customers;
 SET FOREIGN_KEY_CHECKS = 1;
 
-CREATE TABLE Customer (
+CREATE TABLE Customers (
     Name VARCHAR(255) PRIMARY KEY,
     Address VARCHAR(255) 
 );
@@ -23,11 +23,11 @@ CREATE TABLE Orders (
     Order_ID INT PRIMARY KEY,
     Customer_Name VARCHAR(255),
     WishedDateOfDelivery DATE,
-    FOREIGN KEY (Customer_Name) REFERENCES Customer(Name)
+    FOREIGN KEY (Customer_Name) REFERENCES Customers(Name)
 );
 
 
-CREATE TABLE Pallet (
+CREATE TABLE Pallets (
     Pallet_ID INT PRIMARY KEY,
     Order_ID INT,
     DateTime DATETIME,
@@ -61,8 +61,8 @@ CREATE TABLE Ingredients (
 );
 
 
-CREATE TABLE Recipe (
-    MaterialName VARCHAR(255),
+CREATE TABLE Recipes (
+    Ingredient VARCHAR(255),
     QuantityInRecipe INT,
      BatchID INT,
     CookieName VARCHAR(255),
@@ -74,7 +74,7 @@ CREATE TABLE CookiesPallet (
     CookieName VARCHAR(255),
     Pallet_ID INT,
     FOREIGN KEY (BatchID, CookieName) REFERENCES Cookies(BatchID, CookieName),
-    FOREIGN KEY (Pallet_ID) REFERENCES Pallet(Pallet_ID)
+    FOREIGN KEY (Pallet_ID) REFERENCES Pallets(Pallet_ID)
 );
 
 CREATE TABLE OrderCookies (
