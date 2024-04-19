@@ -1,12 +1,12 @@
 set foreign_key_checks = 0;
 
-TRUNCATE TABLE Cookies;
-TRUNCATE TABLE Recipes;
-TRUNCATE TABLE Customers;
-TRUNCATE TABLE Pallets;
-TRUNCATE TABLE Ingredients;
+TRUNCATE TABLE cookies;
+TRUNCATE TABLE recipes;
+TRUNCATE TABLE customers;
+TRUNCATE TABLE pallets;
+TRUNCATE TABLE raw-materials;
 
-INSERT INTO Cookies (cookieName) VALUES
+INSERT INTO cookies (name) VALUES
 ('Nut ring'),
 ('Nut cookie'),
 ('Amneris'),
@@ -14,7 +14,7 @@ INSERT INTO Cookies (cookieName) VALUES
 ('Almond delight'),
 ('Berliner');
 
-INSERT INTO Recipes (CookieName, Ingredient, QuantityInRecipe) VALUES
+INSERT INTO recipes (cookieName, ingredient, quantityInRecipe) VALUES
 ('Nut ring', 'Flour', 450),
 ('Nut ring', 'Butter', 450),
 ('Nut ring', 'Icing sugar', 190),
@@ -47,7 +47,7 @@ INSERT INTO Recipes (CookieName, Ingredient, QuantityInRecipe) VALUES
 ('Berliner', 'Vanilla sugar', 5),
 ('Berliner', 'Chocolate', 50);
 
-INSERT INTO Ingredients (Name, Quantity, Unit) VALUES
+INSERT INTO raw_materials (name, amount, unit) VALUES
 ('Bread crumbs', 500000, 'g'),
 ('Butter', 500000, 'g'),
 ('Chocolate', 500000, 'g'),
@@ -68,7 +68,7 @@ INSERT INTO Ingredients (Name, Quantity, Unit) VALUES
 ('Vanilla', 500000, 'g'),
 ('Wheat flour', 500000, 'g');
 
-INSERT INTO Customers (Name, Address) VALUES
+INSERT INTO customers (name, address) VALUES
 ('Finkakor AB', 'Helsingborg'),
 ('Småbröd AB', 'Malmö'),
 ('Kaffebörd AB', 'Landskrona'),

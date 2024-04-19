@@ -36,10 +36,10 @@ public class Database {
 	// TODO: Implement and change output in all methods below!
 
 	public String getCustomers(Request req, Response res) {
-		String Query  = "SELECT Name, Address From Customer";
+		String Query  = "SELECT Name, Address From Customers";
 		try(PreparedStatement ps = conn.prepareStatement(Query)) {
 			ResultSet rs = ps.executeQuery();
-			String json = Jsonizer.toJson(rs, "customer");
+			String json = Jsonizer.toJson(rs, "customers");
 			return json;
 		}
 			catch (SQLException e) {
