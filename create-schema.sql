@@ -32,7 +32,7 @@ CREATE TABLE Pallet (
     Order_ID INT,
     DateTime DATETIME,
     Location VARCHAR(255),
-    IsBlocked BIT,
+    IsBlocked boolean,
     FOREIGN KEY (Order_ID) REFERENCES Orders(Order_ID)
 );
 
@@ -53,20 +53,22 @@ CREATE TABLE Cookies (
 );
 
 
-CREATE TABLE RawMaterials (
+CREATE TABLE Ingredients (
     Name VARCHAR(255) PRIMARY KEY,
     Quantity INT,
-    DateDelivered DATE
+    DateDelivered DATE,
+    Unit varChar(10)
 );
 
 
-CREATE TABLE Ingredients (
+CREATE TABLE Recipe (
     MaterialName VARCHAR(255),
     QuantityInRecipe INT,
-    PRIMARY KEY (MaterialName),
-    
-    FOREIGN KEY (MaterialName) REFERENCES RawMaterials(Name)
-);
+     BatchID INT,
+    CookieName VARCHAR(255),
+    PRIMARY KEY (CookieName, BatchID),
+ FOREIGN KEY (BatchID, CookieName) REFERENCES Cookies(BatchID, CookieName)
+ );
 CREATE TABLE CookiesPallet (
     BatchID INT,
     CookieName VARCHAR(255),
@@ -75,6 +77,8 @@ CREATE TABLE CookiesPallet (
     FOREIGN KEY (Pallet_ID) REFERENCES Pallet(Pallet_ID)
 );
 
+
+
 CREATE TABLE OrderCookies (
     Order_ID INT,
     BatchID INT,
@@ -82,4 +86,3 @@ CREATE TABLE OrderCookies (
     FOREIGN KEY (Order_ID) REFERENCES Orders(Order_ID),
     FOREIGN KEY (BatchID, CookieName) REFERENCES Cookies(BatchID, CookieName)
 );
-
