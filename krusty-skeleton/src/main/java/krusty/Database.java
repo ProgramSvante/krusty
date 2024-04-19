@@ -36,7 +36,7 @@ public class Database {
 	// TODO: Implement and change output in all methods below!
 
 	public String getCustomers(Request req, Response res) {
-		String Query  = "SELECT Name, Address From Customers";
+		String Query  = "SELECT name, address From customers";
 		try(PreparedStatement ps = conn.prepareStatement(Query)) {
 			ResultSet rs = ps.executeQuery();
 			String json = Jsonizer.toJson(rs, "customers");
@@ -51,7 +51,16 @@ public class Database {
 	}
 
 	public String getRawMaterials(Request req, Response res) {
-		return "{}";
+		String Query  ="Select name, amount, unit from raw_materials";
+		try(PreparedStatement ps = conn.prepareStatement(Query)) {
+			ResultSet rs = ps.executeQuery();
+			String json = Jsonizer.toJson(rs, "raw-materials");
+			return json;
+		}
+			catch (SQLException e) {
+				throw new RuntimeException(e);
+
+			}
 	}
 
 	public String getCookies(Request req, Response res) {
