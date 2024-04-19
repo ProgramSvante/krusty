@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>504</x>
+      <y>352</y>
+      <w>168</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>_Pallet_
+--
+_Pallet-ID_
+Date-time
+Location
+IsBlocked</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>160</x>
+      <y>760</y>
+      <w>168</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>_Customer_
+--
+_Name_
+Adress</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>512</x>
+      <y>584</y>
+      <w>168</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>_Orders_
+--
+_Order-ID_
+WishedDateOfDelivery</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>504</x>
+      <y>168</y>
+      <w>168</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>_Cookies_
+--
+_BatchID_
+_CookieName_
+production date
+production time</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>872</x>
+      <y>584</y>
+      <w>168</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>_Delivered_
+&lt;&lt;weak&gt;&gt;
+--
+date-of-delivery</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>128</x>
+      <y>0</y>
+      <w>168</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Ingredients
+
+--
+_Name_
+Quantity
+Date_delivered
+Unit
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>232</x>
+      <y>680</y>
+      <w>296</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=0..n
+&lt; orders &gt;</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;20.0;350.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>192</x>
+      <y>88</y>
+      <w>328</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1..n
+m2= 1..n
+&lt; includ &gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;160.0;390.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>672</x>
+      <y>616</y>
+      <w>216</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+&lt; state &gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>584</x>
+      <y>248</y>
+      <w>96</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..n
+&lt; containes &gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>584</x>
+      <y>464</y>
+      <w>128</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..1
+m2=0..n
+&lt; pallet-and-order &gt;</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>368</x>
+      <y>104</y>
+      <w>168</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>Recipe
+&lt;&lt;weak&gt;&gt;
+--
+QuantityInRecipie
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>192</x>
+      <y>112</y>
+      <w>192</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.&gt;
+&lt;&lt;&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;220.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>48</x>
+      <y>328</y>
+      <w>48</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>Abbe</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>136</x>
+      <y>336</y>
+      <w>48</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>Seth</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>816</x>
+      <y>200</y>
+      <w>48</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Svan
+te</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>664</x>
+      <y>232</y>
+      <w>264</w>
+      <h>368</h>
+    </coordinates>
+    <panel_attributes>
+m1=0..n
+m2=0..n
+is Ordered &gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;230.0;130.0;230.0;340.0;20.0;440.0</additional_attributes>
+  </element>
+</diagram>
