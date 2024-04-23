@@ -97,37 +97,33 @@ public class Database {
 	}
 
 	public String getPallets(Request req, Response res) {
-		// String sql = "SELECT  From pallets where 1=1"; 
- 
-		// ArrayList<String> values = new ArrayList<String>(); 
-		// if (req.queryParams("from") != null) {
-        //     sql += " AND production_date >= ?";
-        //     values.add(req.queryParams("from"));
-        // }
-        // if (req.queryParams("to") != null) {
-        //     sql += " AND production_date <= ?";
-        //     values.add(req.queryParams("to"));
-        // }
-        // if (req.queryParams("cookie") != null) {
-        //     sql += " AND cookie = ?";
-        //     values.add(req.queryParams("cookie"));
-        // }
-        // if (req.queryParams("blocked") != null) {
-        //     sql += " AND blocked = ?";
-        //     values.add(req.queryParams("blocked"));
-        // }
-		
-		// try (PreparedStatement ps = conn.prepareStatement(sql)) { 
-		// 	for (int i = 0; i < values.size(); i++) { 
-		// 		ps.setString(i+1, values.get(i)); 
-		// 	} 
-		// 	ResultSet rs = ps.executeQuery();
-		// 	String json = Jsonizer.toJson(rs, "pallets");
-		// 	return json;
-		// } catch (SQLException e) { 
-		// 	throw new RuntimeException(e);
-		// } 
-		return "{}";
+		String sql = "SELECT  From pallets where 1=1"; 		ArrayList<String> values = new ArrayList<String>(); 
+		if (req.queryParams("from") != null) {
+            sql += " AND production_date >= ?";
+            values.add(req.queryParams("from"));
+        }
+        if (req.queryParams("to") != null) {
+            sql += " AND production_date <= ?";
+            values.add(req.queryParams("to"));
+        }
+        if (req.queryParams("cookie") != null) {
+            sql += " AND cookie = ?";
+            values.add(req.queryParams("cookie"));
+        }
+        if (req.queryParams("blocked") != null) {
+            sql += " AND blocked = ?";
+            values.add(req.queryParams("blocked"));
+        }
+		try (PreparedStatement ps = conn.prepareStatement(sql)) { 
+			for (int i = 0; i < values.size(); i++) { 
+				ps.setString(i+1, values.get(i)); 
+			} 
+			ResultSet rs = ps.executeQuery();
+			String json = Jsonizer.toJson(rs, "pallets");
+			return json;
+		} catch (SQLException e) { 
+			throw new RuntimeException(e);
+		} 
 	}
 
 	public String reset(Request req, Response res) {
@@ -205,8 +201,46 @@ private void executeFile(String path)
 }
 
 	public String createPallet(Request req, Response res) {
+		
 		String cookie = req.queryParams("cookie");
-		//if(DataBase.getCookies().)
-		return "{}";
+		
+		if (!cookieExists(cookie)) {
+			return "{\"status\": \"unknown cookie\"}";
+		}
+		
+		String insertSql = "INSERT INTO pallets (cookie, production_date) VALUES (?, NOW())";
+		
+		try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
+			
+			ps.setString(1, cookie);
+			int rowsInserted = ps.executeUpdate();
+			
+			if (rowsInserted > 0) {
+				ResultSet generatedKeys = ps.getGeneratedKeys();
+				if (generatedKeys.next()) {
+					int palletId = generatedKeys.getInt(1);
+					return "{\"status\": \"ok\", \"id\": " + palletId + "}";
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return "{\"status\": \"error\"}";
+	}
+	private boolean cookieExists(String cookie) {
+		String allCookiesJson = getCookies();
+		
+		JsonArray allCookiesArray = JsonParser.parseString(allCookiesJson).getAsJsonArray();
+        for (JsonElement element : allCookiesArray) {
+            JsonObject cookieObject = element.getAsJsonObject();
+            String cookieName = cookieObject.get("name").getAsString();
+            if (cookieName.equals(cookie)) {
+                return true;
+            }
+        }
+
+        return false;
 	}
 }
