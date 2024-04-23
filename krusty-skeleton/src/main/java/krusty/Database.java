@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
+
+import java.nio.charset.StandardCharsets;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -97,7 +100,8 @@ public class Database {
 	}
 
 	public String getPallets(Request req, Response res) {
-		String sql = "SELECT  From pallets where 1=1"; 		ArrayList<String> values = new ArrayList<String>(); 
+		String sql = "SELECT * From pallets where 1=1";
+		ArrayList<String> values = new ArrayList<String>(); 
 		if (req.queryParams("from") != null) {
             sql += " AND production_date >= ?";
             values.add(req.queryParams("from"));
@@ -137,7 +141,7 @@ public class Database {
 	}
 private void executeFile(String path)
 {
-    try (FileReader reader = new FileReader(path);
+    try (FileReader reader = new FileReader(path, StandardCharsets.UTF_8);
          // Wrap the FileReader in a BufferedReader for
          // efficient reading.
          BufferedReader bufferedReader
@@ -204,7 +208,7 @@ private void executeFile(String path)
 		
 		String cookie = req.queryParams("cookie");
 		
-		if (!cookieExists(cookie)) {
+		if (!cookieExists(req, res, cookie)) {
 			return "{\"status\": \"unknown cookie\"}";
 		}
 		
@@ -229,18 +233,9 @@ private void executeFile(String path)
 		
 		return "{\"status\": \"error\"}";
 	}
-	private boolean cookieExists(String cookie) {
-		String allCookiesJson = getCookies();
-		
-		JsonArray allCookiesArray = JsonParser.parseString(allCookiesJson).getAsJsonArray();
-        for (JsonElement element : allCookiesArray) {
-            JsonObject cookieObject = element.getAsJsonObject();
-            String cookieName = cookieObject.get("name").getAsString();
-            if (cookieName.equals(cookie)) {
-                return true;
-            }
-        }
-
-        return false;
-	}
+	private boolean cookieExists(Request req, Response res, String cookie) {
+        // Call getCookies method to retrieve all cookies from the database
+        String allCookiesJson = getCookies(req, res);
+		return allCookiesJson.contains(cookie);
+    }
 }
