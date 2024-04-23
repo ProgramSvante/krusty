@@ -6,6 +6,19 @@ TRUNCATE TABLE customers;
 TRUNCATE TABLE pallets;
 TRUNCATE TABLE raw_materials;
 
+INSERT INTO customers (name, address) VALUES
+('Finkakor AB', 'Helsingborg'),
+('Småbröd AB', 'Malmö'),
+('Kaffebröd AB', 'Landskrona'),
+('Bjudkakor AB', 'Ystad'),
+('Kalaskakor AB', 'Trelleborg'),
+('Partykakor AB', 'Kristianstad'),
+('Gästkakor AB', 'Hässleholm'),
+('Skånekakor AB', 'Perstorp');
+
+ALTER TABLE cookies MODIFY COLUMN productionDate DATE DEFAULT CURRENT_DATE;
+ALTER TABLE cookies MODIFY COLUMN productionTime Time DEFAULT CURRENT_TIME;
+
 INSERT INTO cookies (name) VALUES
 ('Nut ring'),
 ('Nut cookie'),
@@ -13,6 +26,30 @@ INSERT INTO cookies (name) VALUES
 ('Tango'),
 ('Almond delight'),
 ('Berliner');
+
+
+
+INSERT INTO raw_materials (name, amount, unit) VALUES
+('Bread crumbs', 500000, 'g'),
+('Butter', 500000, 'g'),
+('Chocolate', 500000, 'g'),
+('Chopped almonds', 500000, 'g'),
+('Cinnamon', 500000, 'g'),
+('Egg whites', 500000, 'ml'),
+('Eggs', 500000, 'g'),
+('Fine-ground nuts', 500000, 'g'),
+('Flour', 500000, 'g'),
+('Ground, roasted nuts', 500000, 'g'),
+('Icing sugar', 500000, 'g'),
+('Marzipan', 500000, 'g'),
+('Potato starch', 500000, 'g'),
+('Roasted, chopped nuts', 500000, 'g'),
+('Sodium bicarbonate', 500000, 'g'),
+('Sugar', 500000, 'g'),
+('Vanilla sugar', 500000, 'g'),
+('Vanilla', 500000, 'g'),
+('Wheat flour', 500000, 'g');
+ALTER TABLE recipies MODIFY COLUMN batchID INT DEFAULT 0; -- Replace 0 with your desired default value
 
 INSERT INTO recipes (cookieName, ingredient, quantityInRecipe) VALUES
 ('Nut ring', 'Flour', 450),
@@ -47,35 +84,5 @@ INSERT INTO recipes (cookieName, ingredient, quantityInRecipe) VALUES
 ('Berliner', 'Vanilla sugar', 5),
 ('Berliner', 'Chocolate', 50);
 
-INSERT INTO raw_materials (name, amount, unit) VALUES
-('Bread crumbs', 500000, 'g'),
-('Butter', 500000, 'g'),
-('Chocolate', 500000, 'g'),
-('Chopped almonds', 500000, 'g'),
-('Cinnamon', 500000, 'g'),
-('Egg whites', 500000, 'ml'),
-('Eggs', 500000, 'g'),
-('Fine-ground nuts', 500000, 'g'),
-('Flour', 500000, 'g'),
-('Ground, roasted nuts', 500000, 'g'),
-('Icing sugar', 500000, 'g'),
-('Marzipan', 500000, 'g'),
-('Potato starch', 500000, 'g'),
-('Roasted, chopped nuts', 500000, 'g'),
-('Sodium bicarbonate', 500000, 'g'),
-('Sugar', 500000, 'g'),
-('Vanilla sugar', 500000, 'g'),
-('Vanilla', 500000, 'g'),
-('Wheat flour', 500000, 'g');
-
-INSERT INTO customers (name, address) VALUES
-('Finkakor AB', 'Helsingborg'),
-('Småbröd AB', 'Malmö'),
-('Kaffebröd AB', 'Landskrona'),
-('Bjudkakor AB', 'Ystad'),
-('Kalaskakor AB', 'Trelleborg'),
-('Partykakor AB', 'Kristianstad'),
-('Gästkakor AB', 'Hässleholm'),
-('Skånekakor AB', 'Perstorp');
 
 set foreign_key_checks = 1;
