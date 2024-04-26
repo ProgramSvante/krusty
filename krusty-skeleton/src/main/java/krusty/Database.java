@@ -181,7 +181,7 @@ public class Database {
 		}
 
 		String insertSql = "insert into pallets (dateTime, location, blocked, cookieName) values (now(), ?, ?, ?)";
-		
+		String getRecipes = "select * from recipes where cookieName = ?";
 		try (PreparedStatement ps = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
 
 			ps.setString(1, "warehouse1");
@@ -192,9 +192,30 @@ public class Database {
 			if (rowsInserted > 0) {
 				try(ResultSet generatedKeys = ps.getGeneratedKeys()){
 
-				
+				try(PreparedStatement ps1 = conn.prepareStatement(getRecipes)){
+					ps1.setString(1, cookie);
+					
+					ResultSet rs = ps1.executeQuery();
+					rs.beforeFirst();
+					while(rs.next()){
+						System.out.println(rs.getString("ingredient") + " " + rs.getInt("quantityInRecipe"));
+						int amount = rs.getInt("quantityInRecipe") * 54;
+						String recipeString = rs.getString("ingredient");
+
+						String SQLUpdateRaw = "update raw_materials set amount = amount - ? where name = ?";
+						try(PreparedStatement ps2 = conn.prepareStatement(SQLUpdateRaw)){
+							ps2.setInt(1,amount);
+							ps2.setString(2, recipeString);
+							ps2.executeUpdate();
+						}catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+
+				}
 				if (generatedKeys.next()) {
 					Integer palletId = generatedKeys.getInt(1);
+
 					return "{\"status\": \"ok\", \"id\": " + palletId + "}";
 				}
 			}
