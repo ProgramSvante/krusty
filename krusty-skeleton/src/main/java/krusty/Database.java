@@ -1,21 +1,18 @@
 package krusty;
 
-import spark.Request;
-import spark.Response;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.TreeMap;
-
-import java.nio.charset.StandardCharsets;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
-import java.sql.*;
+import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
-import static krusty.Jsonizer.toJson;
+import spark.Request;
+import spark.Response;
 
 public class Database {
 	/**
@@ -211,19 +208,27 @@ private void executeFile(String path)
 		if (!cookieExists(req, res, cookie)) {
 			return "{\"status\": \"unknown cookie\"}";
 		}
-		
 		String insertSql = "insert into pallets (dateTime, location, blocked) values (now(), ?, ?)";
-		String cookieSql = "insert into cookiesPallet (pallet_ID, batchID, cookieName)";
+		String cookieSql = "insert into cookiesPallet (pallet_ID, cookieName) values(?,?)";
+		String getRecipe = "select * from recipes where ";
+
 		try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
 			
 			ps.setString(1, "warehouse1");
-			ps.setString(1, "no");
+			ps.setString(2, "no");
 			int rowsInserted = ps.executeUpdate();
 			
 			if (rowsInserted > 0) {
 				ResultSet generatedKeys = ps.getGeneratedKeys();
+				
 				if (generatedKeys.next()) {
-					int palletId = generatedKeys.getInt(1);
+					Integer palletId = generatedKeys.getInt(1);
+					try(PreparedStatement ps1 = conn.prepareStatement(cookieSql)){
+						ps1.setString(1, palletId.toString());
+						ps1.setString(3, cookie);
+					}catch (SQLException e) {
+						e.printStackTrace();
+					}
 					return "{\"status\": \"ok\", \"id\": " + palletId + "}";
 				}
 			}

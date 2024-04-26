@@ -16,8 +16,6 @@ INSERT INTO customers (name, address) VALUES
 ('Gästkakor AB', 'Hässleholm'),
 ('Skånekakor AB', 'Perstorp');
 
-ALTER TABLE cookies MODIFY COLUMN productionDate DATE DEFAULT CURRENT_DATE;
-ALTER TABLE cookies MODIFY COLUMN productionTime Time DEFAULT CURRENT_TIME;
 
 INSERT INTO cookies (name) VALUES
 ('Nut ring'),
@@ -49,7 +47,6 @@ INSERT INTO raw_materials (name, amount, unit) VALUES
 ('Vanilla sugar', 500000, 'g'),
 ('Vanilla', 500000, 'g'),
 ('Wheat flour', 500000, 'g');
-ALTER TABLE recipies MODIFY COLUMN batchID INT DEFAULT 0; -- Replace 0 with your desired default value
 
 INSERT INTO recipes (cookieName, ingredient, quantityInRecipe) VALUES
 ('Nut ring', 'Flour', 450),

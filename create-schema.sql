@@ -4,7 +4,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS orderCookies;
 DROP TABLE IF EXISTS palletOrders;
 DROP TABLE IF EXISTS cookiesPallet;
-DROP TABLE IF EXISTS recipies;
+DROP TABLE IF EXISTS recipes;
 DROP TABLE IF EXISTS raw_materials;
 DROP TABLE IF EXISTS cookies;
 DROP TABLE IF EXISTS delivered;
@@ -44,11 +44,8 @@ CREATE TABLE delivered (
 
 
 CREATE TABLE cookies (
-    batchID INT auto_increment,
     name VARCHAR(255),
-    productionDate DATE default CURRENT_DATE,
-    productionTime TIME default CURRENT_TIME,
-    PRIMARY KEY (batchID, name)
+    PRIMARY KEY (name)
 );
 
 
@@ -63,25 +60,21 @@ CREATE TABLE raw_materials (
 CREATE TABLE recipes (
     ingredient VARCHAR(255),
     quantityInRecipe INT,
-    batchID INT,
     cookieName VARCHAR(255),
-    PRIMARY KEY (cookieName, batchID),
- FOREIGN KEY (batchID, cookieName) REFERENCES cookies(batchID, name),
+ FOREIGN KEY (cookieName) REFERENCES cookies(name),
  FOREIGN KEY (ingredient) REFERENCES raw_materials(name)
  );
  
 CREATE TABLE cookiesPallet (
-    batchID INT,
     cookieName VARCHAR(255),
     pallet_ID INT,
-    FOREIGN KEY (batchID, cookieName) REFERENCES cookies(batchID, name),
+    FOREIGN KEY (cookieName) REFERENCES cookies(name),
     FOREIGN KEY (pallet_ID) REFERENCES pallets(pallet_ID)
 );
 
 CREATE TABLE orderCookies (
     order_ID INT,
-    batchID INT,
     cookieName VARCHAR(255),
     FOREIGN KEY (order_ID) REFERENCES orders(order_ID),
-    FOREIGN KEY (batchID, cookieName) REFERENCES cookies(batchID, name)
+    FOREIGN KEY (cookieName) REFERENCES cookies(name)
 );
