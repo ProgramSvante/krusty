@@ -28,11 +28,11 @@ CREATE TABLE orders (
 
 
 CREATE TABLE pallets (
-    pallet_ID INT auto_increment PRIMARY KEY,
+    pallet_ID INT auto_increment,
     dateTime DATETIME,
     location VARCHAR(255),
     blocked varchar(3),
-    FOREIGN KEY (order_ID) REFERENCES orders(order_ID)
+    Primary key (pallet_ID)
 );
 
 
@@ -46,8 +46,8 @@ CREATE TABLE delivered (
 CREATE TABLE cookies (
     batchID INT auto_increment,
     name VARCHAR(255),
-    productionDate DATE,
-    productionTime TIME,
+    productionDate DATE default CURRENT_DATE,
+    productionTime TIME default CURRENT_TIME,
     PRIMARY KEY (batchID, name)
 );
 
@@ -66,9 +66,10 @@ CREATE TABLE recipies (
     batchID INT,
     cookieName VARCHAR(255),
     PRIMARY KEY (cookieName, batchID, ingredient),
- FOREIGN KEY (batchID, cookieName) REFERENCES cookies(batchID, name)
- FOREIGN KEY (ingredient) REFERENCES raw_materials(name);
+ FOREIGN KEY (batchID, cookieName) REFERENCES cookies(batchID, name),
+ FOREIGN KEY (ingredient) REFERENCES raw_materials(name)
  );
+ 
 CREATE TABLE cookiesPallet (
     batchID INT,
     cookieName VARCHAR(255),
