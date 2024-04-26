@@ -202,7 +202,7 @@ public class Database {
 
 		String insertSql = "insert into pallets (dateTime, location, blocked, cookieName) values (now(), ?, ?, ?)";
 
-		try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
+		try (PreparedStatement ps = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
 
 			ps.setString(1, "warehouse1");
 			ps.setString(2, "no");
@@ -210,11 +210,14 @@ public class Database {
 			int rowsInserted = ps.executeUpdate();
 
 			if (rowsInserted > 0) {
-				ResultSet generatedKeys = ps.getGeneratedKeys();
+				try(ResultSet generatedKeys = ps.getGeneratedKeys()){
+
+				
 				if (generatedKeys.next()) {
 					Integer palletId = generatedKeys.getInt(1);
 					return "{\"status\": \"ok\", \"id\": " + palletId + "}";
 				}
+			}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -224,12 +227,11 @@ public class Database {
 	}
 
 	private boolean cookieExists(String cookie) {
-		String Query = "SELECT * From cookies where name = ?";
+		String Query = "SELECT 1 From cookies where name = ?";
 		try (PreparedStatement ps = conn.prepareStatement(Query)) {
 			ps.setString(1, cookie);
 			ResultSet rs = ps.executeQuery();
-			String json = Jsonizer.toJson(rs, "cookies");
-			return !json.equals("");
+			return rs.next();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
