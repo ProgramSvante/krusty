@@ -213,7 +213,7 @@ private void executeFile(String path)
 		}
 		
 		String insertSql = "insert into pallets (dateTime, location, blocked) values (now(), ?, ?)";
-		String cookieSql = "insert into cookiesPallet (pallet_ID, batchID, cookieName)"
+		String cookieSql = "insert into cookiesPallet (pallet_ID, batchID, cookieName)";
 		try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
 			
 			ps.setString(1, "warehouse1");

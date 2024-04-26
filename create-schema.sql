@@ -60,12 +60,12 @@ CREATE TABLE raw_materials (
 );
 
 
-CREATE TABLE recipies (
+CREATE TABLE recipes (
     ingredient VARCHAR(255),
     quantityInRecipe INT,
     batchID INT,
     cookieName VARCHAR(255),
-    PRIMARY KEY (cookieName, batchID, ingredient),
+    PRIMARY KEY (cookieName, batchID),
  FOREIGN KEY (batchID, cookieName) REFERENCES cookies(batchID, name),
  FOREIGN KEY (ingredient) REFERENCES raw_materials(name)
  );
