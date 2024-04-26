@@ -103,20 +103,20 @@ public class Database {
 		String sql = "SELECT * From pallets where 1=1";
 		ArrayList<String> values = new ArrayList<String>(); 
 		if (req.queryParams("from") != null) {
-            sql += " AND production_date >= ?";
+            sql += " AND dateTime >= ?";
             values.add(req.queryParams("from"));
         }
         if (req.queryParams("to") != null) {
-            sql += " AND production_date <= ?";
+            sql += " AND dateTime <= ?";
             values.add(req.queryParams("to"));
-        }
-        if (req.queryParams("cookie") != null) {
-            sql += " AND cookie = ?";
-            values.add(req.queryParams("cookie"));
         }
         if (req.queryParams("blocked") != null) {
             sql += " AND blocked = ?";
             values.add(req.queryParams("blocked"));
+        }
+        if (req.queryParams("cookie") != null) {
+            sql += " AND cookie = ?";
+            values.add(req.queryParams("cookie"));
         }
 		try (PreparedStatement ps = conn.prepareStatement(sql)) { 
 			for (int i = 0; i < values.size(); i++) { 
@@ -212,11 +212,12 @@ private void executeFile(String path)
 			return "{\"status\": \"unknown cookie\"}";
 		}
 		
-		String insertSql = "INSERT INTO pallets (cookie, production_date) VALUES (?, NOW())";
-		
+		String insertSql = "insert into pallets (dateTime, location, blocked) values (now(), ?, ?)";
+		String cookieSql = "insert into cookiesPallet (pallet_ID, batchID, cookieName)"
 		try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
 			
-			ps.setString(1, cookie);
+			ps.setString(1, "warehouse1");
+			ps.setString(1, "no");
 			int rowsInserted = ps.executeUpdate();
 			
 			if (rowsInserted > 0) {
@@ -236,6 +237,7 @@ private void executeFile(String path)
 	private boolean cookieExists(Request req, Response res, String cookie) {
         // Call getCookies method to retrieve all cookies from the database
         String allCookiesJson = getCookies(req, res);
+		System.out.println(allCookiesJson.contains(cookie) + " " + cookie);
 		return allCookiesJson.contains(cookie);
     }
 }
