@@ -80,7 +80,7 @@ public class Database {
 
 	public String getRecipes(Request req, Response res) {
 
-		String Query = "SELECT * from recipies";
+		String Query = "SELECT * from recipes";
 
 		try (PreparedStatement ps = conn.prepareStatement(Query)) {
 			ResultSet rs = ps.executeQuery();
@@ -206,7 +206,7 @@ public class Database {
 
 			ps.setString(1, "warehouse1");
 			ps.setString(2, "no");
-			ps.setString(3, cookie);
+			ps.setString(3, "Nut ring");
 			int rowsInserted = ps.executeUpdate();
 
 			if (rowsInserted > 0) {
@@ -224,6 +224,7 @@ public class Database {
 	}
 
 	private boolean cookieExists(String cookie) {
+		
 		String Query = "SELECT * From cookies where name = " + cookie;
 		try (PreparedStatement ps = conn.prepareStatement(Query)) {
 			ResultSet rs = ps.executeQuery();
