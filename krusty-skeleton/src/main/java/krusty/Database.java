@@ -206,7 +206,7 @@ public class Database {
 
 			ps.setString(1, "warehouse1");
 			ps.setString(2, "no");
-			ps.setString(3, cookie);
+			ps.setString(3, "Nut ring");
 			int rowsInserted = ps.executeUpdate();
 
 			if (rowsInserted > 0) {
