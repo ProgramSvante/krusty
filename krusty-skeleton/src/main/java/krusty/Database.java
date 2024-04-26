@@ -175,7 +175,7 @@ public class Database {
 	public String createPallet(Request req, Response res) {
 
 		String cookie = req.queryParams("cookie");
-
+		//String blocked = req.queryParams("blocked");
 		if (!cookieExists(cookie)) {
 			return "{\"status\": \"unknown cookie\"}";
 		}
