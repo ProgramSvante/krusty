@@ -135,12 +135,7 @@ public class Database {
 
 	private void executeFile(String path) {
 		try (FileReader reader = new FileReader(path, StandardCharsets.UTF_8);
-				// Wrap the FileReader in a BufferedReader for
-				// efficient reading.
 				BufferedReader bufferedReader = new BufferedReader(reader);
-				// Establish a connection to the database.
-				// Create a statement object to execute SQL
-				// commands.
 				Statement statement = conn.createStatement();) {
 
 			StringBuilder builder = new StringBuilder();
@@ -148,27 +143,15 @@ public class Database {
 			String line;
 			int lineNumber = 0;
 			int count = 0;
-
-			// Read lines from the SQL file until the end of the
-			// file is reached.
 			while ((line = bufferedReader.readLine()) != null) {
 				lineNumber += 1;
 				line = line.trim();
-
-				// Skip empty lines and single-line comments.
 				if (line.isEmpty() || line.startsWith("--"))
 					continue;
-
 				builder.append(line);
-				// If the line ends with a semicolon, it
-				// indicates the end of an SQL command.
 				if (line.endsWith(";"))
 					try {
-						// Execute the SQL command
 						statement.execute(builder.toString());
-						// Print a success message along with
-						// the first 15 characters of the
-						// executed command.
 						System.out.println(
 								++count
 										+ " Command successfully executed : "
@@ -178,9 +161,6 @@ public class Database {
 										+ "...");
 						builder.setLength(0);
 					} catch (SQLException e) {
-						// If an SQLException occurs during
-						// execution, print an error message and
-						// stop further execution.
 						System.err.println(
 								"At line " + lineNumber + " : "
 										+ e.getMessage() + "\n");
@@ -227,7 +207,7 @@ public class Database {
 	}
 
 	private boolean cookieExists(String cookie) {
-		String Query = "SELECT 1 From cookies where name = ?";
+		String Query = "SELECT * From cookies where name = ?";
 		try (PreparedStatement ps = conn.prepareStatement(Query)) {
 			ps.setString(1, cookie);
 			ResultSet rs = ps.executeQuery();

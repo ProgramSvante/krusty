@@ -37,8 +37,10 @@ CREATE TABLE pallets (
     cookieName VARCHAR(255),
     location VARCHAR(255),
     blocked varchar(3),
+    customer varchar(255)
     Primary key (pallet_ID),
- FOREIGN KEY (cookieName) REFERENCES cookies(name)
+ FOREIGN KEY (cookieName) REFERENCES cookies(name),
+ FOREIGN KEY (customer) REFERENCES customers(name)
 );
 
 
