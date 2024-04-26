@@ -97,7 +97,7 @@ public class Database {
 	}
 
 	public String getPallets(Request req, Response res) {
-		String sql = "SELECT * From pallets where 1=1";
+		String sql = "SELECT * From pallets, cookiesPallet where pallets.pallet_ID = cookiesPallet.pallet_ID";
 		ArrayList<String> values = new ArrayList<String>(); 
 		if (req.queryParams("from") != null) {
             sql += " AND dateTime >= ?";
@@ -112,7 +112,7 @@ public class Database {
             values.add(req.queryParams("blocked"));
         }
         if (req.queryParams("cookie") != null) {
-            sql += " AND cookie = ?";
+            sql += " AND cookieName = ?";
             values.add(req.queryParams("cookie"));
         }
 		try (PreparedStatement ps = conn.prepareStatement(sql)) { 
