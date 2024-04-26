@@ -205,33 +205,29 @@ private void executeFile(String path)
 		
 		String cookie = req.queryParams("cookie");
 		
-		if (!cookieExists(req, res, cookie)) {
+		if (!cookieExists(cookie)) {
 			return "{\"status\": \"unknown cookie\"}";
 		}
 		String insertSql = "insert into pallets (dateTime, location, blocked) values (now(), ?, ?)";
 		String cookieSql = "insert into cookiesPallet (pallet_ID, cookieName) values(?,?)";
-		String getRecipe = "select * from recipes where ";
 
 		try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
 			
 			ps.setString(1, "warehouse1");
 			ps.setString(2, "no");
-			int rowsInserted = ps.executeUpdate();
-			
-			if (rowsInserted > 0) {
-				ResultSet generatedKeys = ps.getGeneratedKeys();
-				
-				if (generatedKeys.next()) {
-					Integer palletId = generatedKeys.getInt(1);
-					try(PreparedStatement ps1 = conn.prepareStatement(cookieSql)){
-						ps1.setString(1, palletId.toString());
-						ps1.setString(3, cookie);
-					}catch (SQLException e) {
-						e.printStackTrace();
-					}
-					return "{\"status\": \"ok\", \"id\": " + palletId + "}";
-				}
+			ResultSet rs = ps.executeQuery();
+
+			String palletId = rs.getString("palletID");
+
+			try(PreparedStatement ps1 = conn.prepareStatement(cookieSql)){
+				ps1.setString(1, palletId);
+				ps1.setString(2, cookie);
+				ps1.executeQuery();
+			}catch (SQLException e) {
+				e.printStackTrace();
+				return "{\"status\": \"Error\"}";
 			}
+			return "{\"status\": \"ok\", \"id\": " + palletId + "}";
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -239,10 +235,15 @@ private void executeFile(String path)
 		
 		return "{\"status\": \"error\"}";
 	}
-	private boolean cookieExists(Request req, Response res, String cookie) {
-        // Call getCookies method to retrieve all cookies from the database
-        String allCookiesJson = getCookies(req, res);
-		System.out.println(allCookiesJson.contains(cookie) + " " + cookie);
-		return allCookiesJson.contains(cookie);
+	private boolean cookieExists(String cookie) {
+		String Query  = "SELECT * From cookies where name = " + cookie;
+		try(PreparedStatement ps = conn.prepareStatement(Query)) {
+			ResultSet rs = ps.executeQuery();
+			String json = Jsonizer.toJson(rs, "cookies");
+			return json != "";
+		}
+			catch (SQLException e) {
+				throw new RuntimeException(e);
+		}
     }
 }
