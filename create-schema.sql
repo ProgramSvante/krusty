@@ -48,9 +48,6 @@ CREATE TABLE delivered (
     FOREIGN KEY (order_ID) REFERENCES orders(order_ID)
 );
 
-
-
-
 CREATE TABLE raw_materials (
     name VARCHAR(255) PRIMARY KEY,
     amount INT,

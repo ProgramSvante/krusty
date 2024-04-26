@@ -80,11 +80,11 @@ public class Database {
 
 	public String getRecipes(Request req, Response res) {
 
-		String Query = "SELECT * from recipies";
+		String Query = "SELECT * from recipes";
 
 		try (PreparedStatement ps = conn.prepareStatement(Query)) {
 			ResultSet rs = ps.executeQuery();
-			String json = Jsonizer.toJson(rs, "recipies");
+			String json = Jsonizer.toJson(rs, "recipes");
 			return json;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -224,11 +224,12 @@ public class Database {
 	}
 
 	private boolean cookieExists(String cookie) {
-		String Query = "SELECT * From cookies where name = " + cookie;
+		String Query = "SELECT * From cookies where name = ?";
 		try (PreparedStatement ps = conn.prepareStatement(Query)) {
+			ps.setString(1, cookie);
 			ResultSet rs = ps.executeQuery();
 			String json = Jsonizer.toJson(rs, "cookies");
-			return json.isEmpty();
+			return !json.equals("");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
