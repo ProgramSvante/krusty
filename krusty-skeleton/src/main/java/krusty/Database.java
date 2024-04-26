@@ -181,7 +181,7 @@ public class Database {
 		}
 
 		String insertSql = "insert into pallets (dateTime, location, blocked, cookieName) values (now(), ?, ?, ?)";
-
+		
 		try (PreparedStatement ps = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
 
 			ps.setString(1, "warehouse1");
