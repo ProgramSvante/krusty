@@ -26,13 +26,19 @@ CREATE TABLE orders (
     FOREIGN KEY (customer_Name) REFERENCES customers(name)
 );
 
+CREATE TABLE cookies (
+    name VARCHAR(255),
+    PRIMARY KEY (name)
+);
 
 CREATE TABLE pallets (
     pallet_ID INT auto_increment,
     dateTime DATETIME,
+    cookieName VARCHAR(255),
     location VARCHAR(255),
     blocked varchar(3),
-    Primary key (pallet_ID)
+    Primary key (pallet_ID),
+ FOREIGN KEY (cookieName) REFERENCES cookies(name)
 );
 
 
@@ -43,10 +49,6 @@ CREATE TABLE delivered (
 );
 
 
-CREATE TABLE cookies (
-    name VARCHAR(255),
-    PRIMARY KEY (name)
-);
 
 
 CREATE TABLE raw_materials (
@@ -65,12 +67,6 @@ CREATE TABLE recipes (
  FOREIGN KEY (ingredient) REFERENCES raw_materials(name)
  );
  
-CREATE TABLE cookiesPallet (
-    cookieName VARCHAR(255),
-    pallet_ID INT,
-    FOREIGN KEY (cookieName) REFERENCES cookies(name),
-    FOREIGN KEY (pallet_ID) REFERENCES pallets(pallet_ID)
-);
 
 CREATE TABLE orderCookies (
     order_ID INT,
