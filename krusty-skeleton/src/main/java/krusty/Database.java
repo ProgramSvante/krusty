@@ -93,7 +93,7 @@ public class Database {
 	}
 
 	public String getPallets(Request req, Response res) {
-		String sql = "SELECT pallet_ID, dateTime as production_date, cookieName as cookie, location, blocked From pallets where 1=1";
+		String sql = "SELECT pallet_ID, dateTime as production_date, cookieName as cookie, location, blocked, customer From pallets where 1=1";
 		ArrayList<String> values = new ArrayList<String>();
 		if (req.queryParams("from") != null) {
 			sql += " AND dateTime >= ?";
